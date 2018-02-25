@@ -34,12 +34,24 @@ import shared.FixedIterationTrainer;
 public class FlipFlopTest {
     /** The n value */
     private static final int N = 80;
+
+    private static final int iter_rhc = 200000;
+    private static final int iter_sa = 200000;
+    private static final int iter_ga = 1000;
+    private static final int iter_mimic = 1000;
+
+    private static final double sa_t = 100;
+    private static final double sa_cooling = 0.95;
+
+
+
     
     public static void main(String[] args) {
         int[] ranges = new int[N];
         Arrays.fill(ranges, 2);
         EvaluationFunction ef = new FlipFlopEvaluationFunction();
         Distribution odd = new DiscreteUniformDistribution(ranges);
+
         NeighborFunction nf = new DiscreteChangeOneNeighbor(ranges);
         MutationFunction mf = new DiscreteChangeOneMutation(ranges);
         CrossoverFunction cf = new SingleCrossOver();
@@ -49,22 +61,22 @@ public class FlipFlopTest {
         ProbabilisticOptimizationProblem pop = new GenericProbabilisticOptimizationProblem(ef, odd, df);
         
         RandomizedHillClimbing rhc = new RandomizedHillClimbing(hcp);      
-        FixedIterationTrainer fit = new FixedIterationTrainer(rhc, 200000);
+        FixedIterationTrainer fit = new FixedIterationTrainer(rhc, iter_rhc);
         fit.train();
         System.out.println(ef.value(rhc.getOptimal()));
         
-        SimulatedAnnealing sa = new SimulatedAnnealing(100, .95, hcp);
-        fit = new FixedIterationTrainer(sa, 200000);
+        SimulatedAnnealing sa = new SimulatedAnnealing(sa_t, sa_cooling, hcp);
+        fit = new FixedIterationTrainer(sa, iter_sa);
         fit.train();
         System.out.println(ef.value(sa.getOptimal()));
         
         StandardGeneticAlgorithm ga = new StandardGeneticAlgorithm(200, 100, 20, gap);
-        fit = new FixedIterationTrainer(ga, 1000);
+        fit = new FixedIterationTrainer(ga, iter_ga);
         fit.train();
         System.out.println(ef.value(ga.getOptimal()));
         
         MIMIC mimic = new MIMIC(200, 5, pop);
-        fit = new FixedIterationTrainer(mimic, 1000);
+        fit = new FixedIterationTrainer(mimic, iter_mimic);
         fit.train();
         System.out.println(ef.value(mimic.getOptimal()));
     }
