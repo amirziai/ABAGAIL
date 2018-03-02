@@ -1,5 +1,8 @@
 package shared;
 
+import shared.writer.CSVWriter;
+import shared.writer.Writer;
+
 /**
  * A fixed iteration trainer
  * @author Andrew Guillory gtg008g@mail.gatech.edu
@@ -32,11 +35,10 @@ public class FixedIterationTrainer implements Trainer {
      */
     public double train() {
         double sum = 0;
+
         for (int i = 0; i < iterations; i++) {
             sum += trainer.train();
         }
         return sum / iterations;
     }
-    
-
 }
