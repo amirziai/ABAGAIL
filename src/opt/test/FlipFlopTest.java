@@ -30,26 +30,24 @@ import shared.writer.Writer;
  */
 public class FlipFlopTest {
     /** The n value */
-    private static final int N = 200;
+    // private static final int N = 200;
     private static final int iter = 30;
 
     private static final int iter_rhc = 200000;
     private static final int iter_sa = 200000;
-    private static final int iter_ga = 1000;
+    private static final int iter_ga = 2000;
     private static final int iter_mimic = 1000;
 
     private static final double sa_t = 100;
     private static final double sa_cooling = 0.95;
 
-    private static final int[] bitstring_sizes = {10, 25, 50, 100, 200};
-    // private static final int[] bitstring_sizes = {10};
+    private static final int[] bitstring_sizes = {10, 20, 50, 200};
 
 
     private static void output(Writer writer, EvaluationFunction ef, FixedIterationTrainer fit,
                                String algoName, int iter, OptimizationAlgorithm algo,
                                int bitstring_size)
-            throws
-            IOException {
+            throws IOException {
         long t = System.nanoTime();
         fit.train();
         double time = ((double)(System.nanoTime() - t))/ 1e9d;
@@ -63,7 +61,7 @@ public class FlipFlopTest {
     
     public static void main(String[] args) throws IOException {
         String[] fields = {"algo", "iter", "bitstring_size", "val", "time"};
-        Writer writer = new CSVWriter("output/flipflop.csv", fields);
+        Writer writer = new CSVWriter("output/flipflop-v2.csv", fields);
         writer.open();
 
         for (int bitstring_index = 0; bitstring_index < bitstring_sizes.length; bitstring_index++) {

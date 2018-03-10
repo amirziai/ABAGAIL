@@ -6,7 +6,6 @@ import java.io.FileReader;
 import java.util.Scanner;
 
 import func.inst.KDTree;
-import opt.test.AbaloneTest;
 import shared.DataSet;
 import shared.Instance;
 
